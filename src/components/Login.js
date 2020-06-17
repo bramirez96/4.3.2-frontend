@@ -13,12 +13,15 @@ const initialValues = {
 const Login = props => {
   const [loginData, setLoginData] = useState(initialValues);
   const { push } = useHistory();
+  const { toggle } = props;
+
   const submitHandler = e => {
     e.preventDefault();
     axiosWithAuth()
       .post(`/api/login`, loginData)
       .then(({ data: { token } }) => {
         setToken(token);
+        toggle();
         push("/list");
       });
   };

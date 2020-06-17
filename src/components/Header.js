@@ -25,9 +25,11 @@ const StyledHeader = styled.div`
 
 const Header = props => {
   const { push } = useHistory();
+  const { isLogged, toggle } = props;
   const logoutHandler = e => {
     e.preventDefault();
     clearToken();
+    toggle();
     push("/login");
   };
   return (
@@ -37,10 +39,10 @@ const Header = props => {
         <NavLink exact to="/">
           Home
         </NavLink>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/signup">Signup</NavLink>
-        <NavLink to="/list">List</NavLink>
-        <button onClick={logoutHandler}>Logout</button>
+        {!isLogged && <NavLink to="/login">Login</NavLink>}
+        {!isLogged && <NavLink to="/signup">Signup</NavLink>}
+        {isLogged && <NavLink to="/list">List</NavLink>}
+        {isLogged && <button onClick={logoutHandler}>Logout</button>}
       </nav>
     </StyledHeader>
   );

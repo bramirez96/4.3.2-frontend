@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import "./styles.css";
@@ -9,14 +9,24 @@ import Signup from "./components/Signup";
 import List from "./components/List";
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  const toggleLoggedIn = () => {
+    setIsLogged(!isLogged);
+  };
   return (
     <div className="App">
-      <Header />
+      <Header isLogged={isLogged} toggle={toggleLoggedIn} />
       <Switch>
         <Route exact path="/">
           <h2>Welcome, traveller.</h2>
         </Route>
-        <Route exact path="/login" component={Login} />
+        <Route
+          exact
+          path="/login"
+          render={() => {
+            return <Login toggle={toggleLoggedIn} />;
+          }}
+        />
         <Route exact path="/signup" component={Signup} />
         <PrivateRoute exact path="/list" component={List} />
       </Switch>
